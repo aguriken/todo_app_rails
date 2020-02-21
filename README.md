@@ -24,7 +24,9 @@ mysql version 5.6
 |name         |string       |null:false   |
 
 #### **Asociation**
-has_many tasks
+```
+has_many :tasks
+```
 
 #### **tasks table**
 
@@ -37,7 +39,9 @@ has_many tasks
 |project      |references   |foreign_key  |
 
 #### **Asociation**
-belongs_to project
+```
+belongs_to :project
+```
 
 ## 将来設計
 タグをタスクに追加する場合
@@ -61,8 +65,11 @@ belongs_to project
 |project      |references   |foreign_key  |
 
 #### **Asociation**
-belongs_to project
-has_many tags, through :task_tags
+```
+belongs_to :project 
+has_many :task_tags, dependent: :destroy
+has_many :tags, through: :task_tags , source: :tags
+```
 
 #### **task_tags table**
 
@@ -73,8 +80,10 @@ has_many tags, through :task_tags
 |tag          |references   |foreign_key  |
 
 #### **Asociation**
-belongs_to task
-belongs_to tag
+```
+belongs_to :task
+belongs_to :tag
+```
 
 #### **tags table**
 
@@ -85,4 +94,6 @@ belongs_to tag
 
 
 #### **Asociation**
-なし
+```
+has_many :task_tags, dependent: :destroy
+```
