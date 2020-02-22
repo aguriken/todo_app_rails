@@ -1,0 +1,12 @@
+<%= link_to 'HOME', '/' %> 
+これはタスク一覧ページです
+
+<div><%= @project.name %></div>
+<% @tasks.each do |task| %>
+  <a href="/projects/<%= task.project.id %>/tasks/<%= task.id %>/edit">
+    <div><%= task.title %></div>
+    <div><%= task.deadline %></div>
+  </a>
+<% end %>
+
+<%= link_to  "New Task", new_project_task_path %>

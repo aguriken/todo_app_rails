@@ -1,0 +1,8 @@
+<%= form_with(model: [ @project, Task.new ]) do |f| %>
+  <%= f.text_field :title, :placeholder => 'YOUR TASK TITLE' %>
+  <%= link_to '戻る', :back %> 
+  <%= f.date_field("deadline") %>
+  <%= f.label :description %><br />
+  <%= f.text_area :description, rows: 5 %>
+  <%= f.submit "New Task" %>
+<% end %>

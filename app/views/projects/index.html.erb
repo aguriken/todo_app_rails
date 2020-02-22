@@ -1,1 +1,10 @@
 プロジェクトを作成してタスクを管理しよう
+
+<%= form_with model: Project.new do |f| %>
+  <%= f.text_field :name, :placeholder => 'YOUR PROJECT TITLE' %>
+  <%= f.submit "New Project" %>
+<% end %>
+
+<% @projects.each do |project| %>
+  <%= link_to "#{project.name}",  project_tasks_path(project) %>
+<% end %>
