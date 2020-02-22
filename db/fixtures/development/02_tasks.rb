@@ -5,6 +5,7 @@ project_id = [1, 1, 2, 2, 3, 3]
   Task.seed do |s|
     s.id    = number + 1
     s.title = "task#{tasks[number]}"
+    s.deadline = Date.today + number
     s.description = "task#{tasks[number]}の詳細内容です"
     s.project_id = project_id[number]
   end
