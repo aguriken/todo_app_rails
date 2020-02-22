@@ -4,5 +4,6 @@
   <%= f.date_field("deadline")%>
   <%= f.label :description %><br />
   <%= f.text_area :description, rows: 5 %>
+  <%= link_to "Delete", "/projects/#{@project.id}/tasks/#{@task.id}", method: :delete, data: { confirm: "You sure?" } %>
   <%= f.submit "Update Task" %>
 <% end %>

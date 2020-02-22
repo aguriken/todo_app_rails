@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  include SlackNotifier
   before_action :find_project
   def index 
     @tasks = @project.tasks
@@ -8,12 +9,9 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = @project.tasks.build(task_params)
-    if @task.save
-      notifier = Slack::Notifier.new ENV['Webhook_URL'],
-      channel: "#中原さんオリアプ研修", 
-      username: "Notification"
-      notifier.ping "#{@task.project.name}で#{@task.title}を作成しました。 \n 〆切は#{@task.deadline}です。"
+    task = @project.tasks.build(task_params)
+    if task.save
+      slacknotifier(task, params[:action])
       flash[:success] = 'タスクを作成しました'
       redirect_to "/projects/#{@project.id}/tasks"
     else
@@ -29,12 +27,17 @@ class TasksController < ApplicationController
   def update
     task = Task.find(params[:id])
     task.update(task_params)
-    notifier = Slack::Notifier.new ENV['Webhook_URL'],
-    channel: "#中原さんオリアプ研修", 
-    username: "Notification"
-    notifier.ping "#{task.project.name}で#{task.title}を更新しました。 \n 〆切は#{task.deadline}です。"
+    slacknotifier(task, params[:action])
     redirect_to "/projects/#{@project.id}/tasks"
   end
+
+  def destroy
+    task = Task.find(params[:id])
+    task.destroy
+    slacknotifier(task, params[:action])
+    flash[:success] = 'タスクを削除しました。'
+    redirect_to "/projects/#{@project.id}/tasks"
+  end 
 
   private
 
