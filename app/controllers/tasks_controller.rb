@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :find_task
+  before_action :find_project
   def index 
     @tasks = @project.tasks
   end
@@ -10,6 +10,10 @@ class TasksController < ApplicationController
   def create
     @task = @project.tasks.build(task_params)
     if @task.save
+      notifier = Slack::Notifier.new ENV['Webhook_URL'],
+      channel: "#中原さんオリアプ研修", 
+      username: "Notification"
+      notifier.ping "#{@task.project.name}で#{@task.title}を作成しました。 \n 〆切は#{@task.deadline}です。"
       flash[:success] = 'タスクを作成しました'
       redirect_to "/projects/#{@project.id}/tasks"
     else
@@ -23,9 +27,13 @@ class TasksController < ApplicationController
   end
 
   def update
-    project = Project.find(params[:project_id]) 
-    Task.find(params[:id]).update(task_params)
-    redirect_to "/projects/#{project.id}/tasks"
+    task = Task.find(params[:id])
+    task.update(task_params)
+    notifier = Slack::Notifier.new ENV['Webhook_URL'],
+    channel: "#中原さんオリアプ研修", 
+    username: "Notification"
+    notifier.ping "#{task.project.name}で#{task.title}を更新しました。 \n 〆切は#{task.deadline}です。"
+    redirect_to "/projects/#{@project.id}/tasks"
   end
 
   private
@@ -34,7 +42,7 @@ class TasksController < ApplicationController
     params.require(:task).permit(:title, :deadline, :description)
   end
 
-  def find_task
+  def find_project
     @project = Project.find(params[:project_id])
   end
 end
