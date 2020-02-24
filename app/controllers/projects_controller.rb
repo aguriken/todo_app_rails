@@ -6,10 +6,10 @@ class ProjectsController < ApplicationController
   def create
     project = Project.new(project_params)
     if project.save
-      flash[:success] = 'プロジェクトの作成に成功しました。'
+      flash[:success] = 'Well Done! You successfully created new project'
       redirect_to "/projects/#{project.id}/tasks"
     else
-      flash.now[:danger] = 'プロジェクトの作成に失敗しました'
+      flash.now[:danger] = 'Error... Something went wrong'
       redirect_to root_url
     end
   end
