@@ -12,10 +12,10 @@ class TasksController < ApplicationController
     task = @project.tasks.build(task_params)
     if task.save
       slacknotifier(task, params[:action])
-      flash[:success] = 'タスクを作成しました'
+      flash[:success] = 'Well Done! You successfully created new task'
       redirect_to "/projects/#{@project.id}/tasks"
     else
-      flash.now[:danger] = 'タスクを作成に失敗しました。'
+      flash.now[:danger] = 'Error... Something went wrong'
       redirect_to "/projects/#{@project.id}/tasks"
     end
   end
@@ -28,6 +28,7 @@ class TasksController < ApplicationController
     task = Task.find(params[:id])
     task.update(task_params)
     slacknotifier(task, params[:action])
+    flash[:success] = 'Well Done! You successfully updated new task'
     redirect_to "/projects/#{@project.id}/tasks"
   end
 
@@ -35,7 +36,7 @@ class TasksController < ApplicationController
     task = Task.find(params[:id])
     task.destroy
     slacknotifier(task, params[:action])
-    flash[:success] = 'タスクを削除しました。'
+    flash[:success] = 'Well done. Task was deleted'
     redirect_to "/projects/#{@project.id}/tasks"
   end 
 

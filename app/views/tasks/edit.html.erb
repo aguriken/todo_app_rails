@@ -1,9 +1,21 @@
-<%= form_with(model: [ @project, @task ]) do |f| %>
-  <%= f.text_field :title, :placeholder => 'YOUR TASK TITLE' %>
-  <%= link_to '戻る', :back %> 
-  <%= f.date_field("deadline")%>
-  <%= f.label :description %><br />
-  <%= f.text_area :description, rows: 5 %>
-  <%= link_to "Delete", "/projects/#{@project.id}/tasks/#{@task.id}", method: :delete, data: { confirm: "You sure?" } %>
-  <%= f.submit "Update Task" %>
-<% end %>
+<div class="edit-task">
+  <div class="task-card">
+    <%= form_with(model: [ @project, @task ], class: "task-form") do |f| %>
+      <div class="title-content">
+        <%= f.text_field :title, :placeholder => 'YOUR TASK TITLE', class: "title-input-field"%>
+        <%= link_to(:back, class: "back") do %>
+          <div class="cancel-icon"><span></span></div>
+        <% end %>
+      </div>
+      <%= f.label :due, class: "due-label"%><br />
+      <%= f.date_field :deadline, class: "date-input-field"%>
+      <%= f.label :description, class: "description-label"%><br />
+      <%= f.text_area :description, class: "description-input-field", rows: 6 %>
+      <div class="btn-field">
+        <%= link_to "Delete", "/projects/#{@project.id}/tasks/#{@task.id}", method: :delete, class: "delete-btn", data: { confirm: "You sure?" } %>
+        <%= f.submit "Update", class: "update-btn"%>
+      </div>
+    <% end %>
+  </div>
+</div>
+

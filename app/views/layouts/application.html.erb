@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>TodoAppRails</title>
+    <link href="https://fonts.googleapis.com/earlyaccess/nicomoji.css" rel="stylesheet">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +11,9 @@
   </head>
 
   <body>
-    <%= yield %>
+    <%= render 'layouts/flash_messages' %>
+    <div class="content-wrapper">
+      <%= yield %>
+    </div>
   </body>
 </html>
