@@ -1,10 +1,12 @@
-プロジェクトを作成してタスクを管理しよう
-
-<%= form_with model: Project.new do |f| %>
-  <%= f.text_field :name, :placeholder => 'YOUR PROJECT TITLE' %>
-  <%= f.submit "New Project" %>
-<% end %>
-
-<% @projects.each do |project| %>
-  <%= link_to "#{project.name}",  project_tasks_path(project) %>
-<% end %>
+<div class="container">
+  <h1 class="project-title">プロジェクトを作成してタスクを管理しよう</h1>
+  <%= form_with(model: Project.new, class: "create-project") do |f| %>
+    <%= f.text_field :name, :placeholder => 'YOUR PROJECT TITLE', class: "input-field" %>
+    <%= f.submit "New Project", class: "create-btn" %>
+  <% end %>
+  <div class="projects-section">
+    <% @projects.each do |project| %>
+      <%= link_to "#{project.name}",  project_tasks_path(project), class: "project-card" %> 
+    <% end %>
+  </div>
+</div>

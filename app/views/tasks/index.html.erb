@@ -1,12 +1,18 @@
-<%= link_to 'HOME', '/' %> 
-これはタスク一覧ページです
+<div class="container">
+  <div class="tasks-section">
+    <%= link_to("/", class: "home") do %>
+      <i class="fa fa-home"></i>
+    <% end %>
+    <div class="project-name"><%= @project.name %></div>
+    <% @tasks.each do |task| %>
+      <a href="/projects/<%= task.project.id %>/tasks/<%= task.id %>/edit" class="task-card">
+        <div class="task-title"><%= task.title %></div>
+        <div class="task-deadline"><%= task.deadline %></div>
+      </a>
+    <% end %>
+  </div>
 
-<div><%= @project.name %></div>
-<% @tasks.each do |task| %>
-  <a href="/projects/<%= task.project.id %>/tasks/<%= task.id %>/edit">
-    <div><%= task.title %></div>
-    <div><%= task.deadline %></div>
-  </a>
-<% end %>
-
-<%= link_to  "New Task", new_project_task_path %>
+  <%= link_to(new_project_task_path, class: "create-task") do %>
+    <button class="create-task-btn"></button>
+  <% end %>
+</div>
